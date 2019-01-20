@@ -8,16 +8,10 @@ namespace Runner
         {
             var arguments = new Arguments(args);
             var taskReport = new TaskOrchestrator().StartTask(
-                ComputationallyIntensiveTask,
+                ComputationallyIntensive.Task,
                 TimeSpan.FromSeconds(arguments.LengthOfTestInSeconds),
                 arguments.NoOfThreads);
             Console.WriteLine($"{taskReport.TotalIterationsCompleted} iterations completed");
-        }
-
-        private static void ComputationallyIntensiveTask()
-        {
-            PrimeNumberGenerator.CalculatePrimeNumbers(10000);
-            FactorialCalculator.CalculateFactorial(5000);
         }
     }
 }
