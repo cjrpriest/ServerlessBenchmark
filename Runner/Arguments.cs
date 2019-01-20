@@ -6,6 +6,8 @@ namespace Runner
     {
         public int LengthOfTestInSeconds { get; set; }
         public int NoOfThreads { get; set; }
+
+        public Arguments() { }
         
         public Arguments(string[] args)
         {
