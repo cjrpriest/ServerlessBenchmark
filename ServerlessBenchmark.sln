@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runner", "Runner\Runner.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaClient", "LambdaClient\src\LambdaClient\LambdaClient.csproj", "{93695560-12D7-4D3B-AC5F-209B165EBE5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessBenchmark.Storage.DataLoader", "ServerlessBenchmark.Storage.DataLoader\ServerlessBenchmark.Storage.DataLoader.csproj", "{F86CC628-94E9-48FD-9930-738710B88549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessBenchmark.Storage.Test", "ServerlessBenchmark.Storage.Test\ServerlessBenchmark.Storage.Test.csproj", "{E1106210-3461-4A95-BA94-BCEDCCEEE6AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessBenchmark.Storage.LambdaClient", "ServerlessBenchmark.Storage.LambdaClient\src\ServerlessBenchmark.Storage.LambdaClient\ServerlessBenchmark.Storage.LambdaClient.csproj", "{6B3763C1-0AD2-4DEB-9CC2-295867BEB75D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{93695560-12D7-4D3B-AC5F-209B165EBE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93695560-12D7-4D3B-AC5F-209B165EBE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93695560-12D7-4D3B-AC5F-209B165EBE5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86CC628-94E9-48FD-9930-738710B88549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86CC628-94E9-48FD-9930-738710B88549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86CC628-94E9-48FD-9930-738710B88549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86CC628-94E9-48FD-9930-738710B88549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1106210-3461-4A95-BA94-BCEDCCEEE6AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1106210-3461-4A95-BA94-BCEDCCEEE6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1106210-3461-4A95-BA94-BCEDCCEEE6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1106210-3461-4A95-BA94-BCEDCCEEE6AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3763C1-0AD2-4DEB-9CC2-295867BEB75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3763C1-0AD2-4DEB-9CC2-295867BEB75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3763C1-0AD2-4DEB-9CC2-295867BEB75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3763C1-0AD2-4DEB-9CC2-295867BEB75D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
