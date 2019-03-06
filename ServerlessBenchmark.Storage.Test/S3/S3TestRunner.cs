@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -27,23 +28,44 @@ namespace ServerlessBenchmark.Storage.Test.Rds
             });
         }
         
-        public TestResult RunTest()
+        public IEnumerable<TestResult> RunTest()
+        {
+            var objectKeyNames = GetObjectKeyNames().ToArray();
+            var testResults = new List<TestResult>();
+            for (int i = 0; i < _s3Arguments.NoOfThreads; i++)
+            {
+                new Thread(() =>
+                {
+                    var testResult = RunSingleThreadTest(objectKeyNames);
+                    testResults.Add(testResult);
+                }).Start();
+            }
+            
+            while (testResults.Count < _s3Arguments.NoOfThreads) { Thread.Sleep(100); }
+
+            return testResults;
+        }
+        
+        public TestResult RunSingleThreadTest(IReadOnlyList<string> objectKeyNames)
         {
             Console.WriteLine("start test");
+            var sw = new Stopwatch();
 
             var responseTimes = new List<long>();
-            var objectKeyNames = GetObjectKeyNames().ToArray();
+            sw.Start();
             for (var i = 0; i < _s3Arguments.NumberOfDocsToRetrieve; i++)
             {
                 var randomKey = GetRandomKey(objectKeyNames);
                 var responseTime = GetObject(randomKey);
                 responseTimes.Add(responseTime);
             }
-
+            sw.Stop();
             var average = responseTimes.Average();
+            var tps = _s3Arguments.NumberOfDocsToRetrieve / sw.Elapsed.TotalSeconds;
             return new TestResult
             {
-                AverageResponseTime = average
+                AverageResponseTime = average,
+                Tps = tps
             };
         }
         
@@ -78,8 +100,6 @@ namespace ServerlessBenchmark.Storage.Test.Rds
         
         private long GetObject(string objectKey)
         {
-            Console.WriteLine($"getting object {objectKey}");
-            Console.WriteLine($"{_s3Arguments.BucketName}");
             var sw = new Stopwatch();
             sw.Start();
             var task =  _amazonS3Client.GetObjectAsync(new GetObjectRequest
@@ -87,9 +107,7 @@ namespace ServerlessBenchmark.Storage.Test.Rds
                 BucketName = _s3Arguments.BucketName,
                 Key = objectKey,
             });
-            Console.WriteLine("before task.Result");
             var getObjectResponse = task.Result;
-            Console.WriteLine("after task.Result");
             sw.Stop();
             return sw.ElapsedMilliseconds;
         }

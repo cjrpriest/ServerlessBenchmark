@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ServerlessBenchmark.Storage.Test.Rds;
 using ServerlessBenchmark.Storage.Test.RDS;
 
@@ -6,7 +7,7 @@ namespace ServerlessBenchmark.Storage.Test
 {
     public class TestRunner
     {
-        public TestResult RunTest(string[] arguments)
+        public IEnumerable<TestResult> RunTest(string[] arguments)
         {
             switch (arguments[0])
             {

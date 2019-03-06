@@ -8,6 +8,7 @@ namespace ServerlessBenchmark.Storage.Test.Rds
         public string BucketName { get; set; }
         public string KeyNamesSourceFile { get; set; }
         public bool UseHttp { get; set; }
+        public int NoOfThreads { get; set; }
 
         public S3Arguments(){ }
         
@@ -17,6 +18,7 @@ namespace ServerlessBenchmark.Storage.Test.Rds
             BucketName = args[2];
             KeyNamesSourceFile = args[3];
             UseHttp = bool.Parse(args[4]);
+            NoOfThreads = Int32.Parse(args[5]);
         }
     }
 }

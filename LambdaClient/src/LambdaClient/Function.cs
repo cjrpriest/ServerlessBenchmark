@@ -25,7 +25,6 @@ namespace LambdaClient
                 TimeSpan.FromSeconds(arguments.LengthOfTestInSeconds),
                 arguments.NoOfThreads);
             return taskReport;
-
         }
     }
 }

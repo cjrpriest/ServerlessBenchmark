@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using MySql.Data.MySqlClient;
 
 namespace ServerlessBenchmark.Storage.Test.RDS
@@ -20,9 +21,28 @@ namespace ServerlessBenchmark.Storage.Test.RDS
             _connectionString = $"Server={_arguments.ServerName};User ID={_arguments.UserId};Password={_arguments.Password};Database={_arguments.Database}";
         }
 
-        public TestResult RunTest()
+        public IEnumerable<TestResult> RunTest()
+        {
+            var testResults = new List<TestResult>();
+            for (int i = 0; i < _arguments.NoOfThreads; i++)
+            {
+                new Thread(() =>
+                {
+                    var testResult = RunSingleThreadTest();
+                    testResults.Add(testResult);
+                }).Start();
+            }
+            
+            while (testResults.Count < _arguments.NoOfThreads) { Thread.Sleep(100); }
+
+            return testResults;
+        }
+
+        private TestResult RunSingleThreadTest()
         {
             var responseTimes = new List<long>();
+            var sw = new Stopwatch();
+            sw.Start();
             using (var conn = new MySqlConnection(_connectionString))
             {
                 conn.Open();
@@ -33,13 +53,14 @@ namespace ServerlessBenchmark.Storage.Test.RDS
                     responseTimes.Add(responseTime);
                 }
             }
-
+            sw.Stop();
             var average = responseTimes.Average();
+            var tps = _arguments.NumberOfDocsToRetrieve / sw.Elapsed.TotalSeconds;
             return new TestResult
             {
-                AverageResponseTime = average
+                AverageResponseTime = average,
+                Tps = tps
             };
-
         }
 
         private long GetObject(long randomId, MySqlConnection conn)
